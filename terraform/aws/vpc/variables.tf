@@ -25,5 +25,5 @@ variable "tags" {
 variable "public_subnet_cidrs" {
   description = "A list of CIDR blocks to use for the public subnets."
   type        = list(string)
-  default     = [10.10.1.0/24]
+  default     = ["10.10.1.0/24"]
 }
