@@ -19,3 +19,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "public_subnet_cidrs" {
+  description = "A list of CIDR blocks to use for the public subnets."
+  type        = list(string)
+  default     = []
+}
