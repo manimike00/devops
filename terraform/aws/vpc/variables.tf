@@ -1,11 +1,13 @@
 variable "name_prefix" {
   description = "A prefix used for naming resources."
   type        = string
+  default     = "demo"
 }
 
 variable "cidr_block" {
   description = "The CIDR block for the VPC."
   type        = string
+  default     = "10.10.0.0/16"
 }
 
 variable "enable_dns_hostnames" {
@@ -23,5 +25,5 @@ variable "tags" {
 variable "public_subnet_cidrs" {
   description = "A list of CIDR blocks to use for the public subnets."
   type        = list(string)
-  default     = []
+  default     = [10.10.1.0/24]
 }
