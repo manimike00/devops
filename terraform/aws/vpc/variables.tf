@@ -33,3 +33,9 @@ variable "azs" {
   type        = list(string)
   default     = []
 }
+
+variable "availability_zones" {
+  description = "The availability zones to use for subnets and resources in the VPC. By default, all AZs in the region will be used."
+  type        = list(string)
+  default     = []
+}
