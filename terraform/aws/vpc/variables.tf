@@ -39,3 +39,9 @@ variable "availability_zones" {
   type        = list(string)
   default     = []
 }
+
+variable "create_nat_gateways" {
+  description = "Optionally create NAT gateways (which cost $) to provide internet connectivity to the private subnets."
+  type        = bool
+  default     = true
+}
