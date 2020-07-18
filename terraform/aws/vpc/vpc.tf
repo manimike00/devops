@@ -7,8 +7,7 @@ data "aws_availability_zones" "main" {}
 data "aws_region" "current" {}
 
 locals {
-  azs               = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.main.names 
-  nat_gateway_count = var.create_nat_gateways ? min(length(local.azs), length(var.public_subnet_cidrs), length(var.private_subnet_cidrs)) : 0
+  azs               = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.main.names
 }
 
 resource "aws_vpc" "main" {
@@ -69,17 +68,6 @@ resource "aws_route" "public" {
   destination_cidr_block = "0.0.0.0/0"
 }
 
-resource "aws_route" "ipv6-public" {
-  count = length(var.public_subnet_cidrs) > 0 ? 1 : 0
-  depends_on = [
-    aws_internet_gateway.public,
-    aws_route_table.public,
-  ]
-  route_table_id              = aws_route_table.public[0].id
-  gateway_id                  = aws_internet_gateway.public[0].id
-  destination_ipv6_cidr_block = "::/0"
-}
-
 resource "aws_subnet" "public" {
   count                           = length(var.public_subnet_cidrs)
   vpc_id                          = aws_vpc.main.id
@@ -104,34 +92,6 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public[0].id
 }
 
-resource "aws_eip" "private" {
-  count = local.nat_gateway_count
-
-  tags = merge(
-    var.tags,
-    {
-      "Name" = "${var.name_prefix}-nat-gateway-${count.index + 1}"
-    },
-  )
-}
-
-resource "aws_nat_gateway" "private" {
-  depends_on = [
-    aws_internet_gateway.public,
-    aws_eip.private,
-  ]
-  count         = local.nat_gateway_count
-  allocation_id = aws_eip.private[count.index].id
-  subnet_id     = element(aws_subnet.public[*].id, count.index)
-
-  tags = merge(
-    var.tags,
-    {
-      "Name" = "${var.name_prefix}-nat-gateway-${count.index + 1}"
-    },
-  )
-}
-
 resource "aws_route_table" "private" {
   depends_on = [aws_vpc.main]
   count      = length(var.private_subnet_cidrs)
@@ -143,17 +103,6 @@ resource "aws_route_table" "private" {
       "Name" = "${var.name_prefix}-private-rt-${count.index + 1}"
     },
   )
-}
-
-resource "aws_route" "private" {
-  depends_on = [
-    aws_nat_gateway.private,
-    aws_route_table.private,
-  ]
-  count                  = local.nat_gateway_count > 0 ? length(var.private_subnet_cidrs) : 0
-  route_table_id         = aws_route_table.private[count.index].id
-  nat_gateway_id         = element(aws_nat_gateway.private[*].id, count.index)
-  destination_cidr_block = "0.0.0.0/0"
 }
 
 resource "aws_route" "ipv6-private" {
