@@ -97,3 +97,96 @@ resource "aws_subnet" "public" {
     },
   )
 }
+
+resource "aws_route_table_association" "public" {
+  count          = length(var.public_subnet_cidrs)
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public[0].id
+}
+
+resource "aws_eip" "private" {
+  count = local.nat_gateway_count
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = "${var.name_prefix}-nat-gateway-${count.index + 1}"
+    },
+  )
+}
+
+resource "aws_nat_gateway" "private" {
+  depends_on = [
+    aws_internet_gateway.public,
+    aws_eip.private,
+  ]
+  count         = local.nat_gateway_count
+  allocation_id = aws_eip.private[count.index].id
+  subnet_id     = element(aws_subnet.public[*].id, count.index)
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = "${var.name_prefix}-nat-gateway-${count.index + 1}"
+    },
+  )
+}
+
+resource "aws_route_table" "private" {
+  depends_on = [aws_vpc.main]
+  count      = length(var.private_subnet_cidrs)
+  vpc_id     = aws_vpc.main.id
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = "${var.name_prefix}-private-rt-${count.index + 1}"
+    },
+  )
+}
+
+resource "aws_route" "private" {
+  depends_on = [
+    aws_nat_gateway.private,
+    aws_route_table.private,
+  ]
+  count                  = local.nat_gateway_count > 0 ? length(var.private_subnet_cidrs) : 0
+  route_table_id         = aws_route_table.private[count.index].id
+  nat_gateway_id         = element(aws_nat_gateway.private[*].id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+}
+
+resource "aws_route" "ipv6-private" {
+  depends_on = [
+    aws_egress_only_internet_gateway.outbound,
+    aws_route_table.private,
+  ]
+  count                       = length(var.public_subnet_cidrs) > 0 ? length(var.private_subnet_cidrs) : 0
+  route_table_id              = aws_route_table.private[count.index].id
+  egress_only_gateway_id      = aws_egress_only_internet_gateway.outbound[0].id
+  destination_ipv6_cidr_block = "::/0"
+}
+
+resource "aws_subnet" "private" {
+  count                           = length(var.private_subnet_cidrs)
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = var.private_subnet_cidrs[count.index]
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index + length(var.public_subnet_cidrs))
+  availability_zone               = element(local.azs, count.index)
+  map_public_ip_on_launch         = false
+  assign_ipv6_address_on_creation = true
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = "${var.name_prefix}-private-subnet-${count.index + 1}"
+      "Tier" = "Private"
+    },
+  )
+}
+
+resource "aws_route_table_association" "private" {
+  count          = length(var.private_subnet_cidrs)
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private[count.index].id
+}
