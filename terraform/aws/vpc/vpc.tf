@@ -6,6 +6,11 @@ data "aws_availability_zones" "main" {}
 
 data "aws_region" "current" {}
 
+locals {
+  azs               = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.main.names 
+  nat_gateway_count = var.create_nat_gateways ? min(length(local.azs), length(var.public_subnet_cidrs), length(var.private_subnet_cidrs)) : 0
+}
+
 resource "aws_vpc" "main" {
   cidr_block                       = var.cidr_block
   instance_tenancy                 = "default"
@@ -73,4 +78,22 @@ resource "aws_route" "ipv6-public" {
   route_table_id              = aws_route_table.public[0].id
   gateway_id                  = aws_internet_gateway.public[0].id
   destination_ipv6_cidr_block = "::/0"
+}
+
+resource "aws_subnet" "public" {
+  count                           = length(var.public_subnet_cidrs)
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = var.public_subnet_cidrs[count.index]
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index)
+  availability_zone               = element(local.azs, count.index)
+  map_public_ip_on_launch         = true
+  assign_ipv6_address_on_creation = true
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = "${var.name_prefix}-public-subnet-${count.index + 1}"
+      "Tier" = "Public"
+    },
+  )
 }

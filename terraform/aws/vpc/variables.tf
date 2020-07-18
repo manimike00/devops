@@ -27,3 +27,9 @@ variable "public_subnet_cidrs" {
   type        = list(string)
   default     = ["10.10.1.0/24"]
 }
+
+variable "azs" {
+  description = "A list of availability zones names or ids in the region"
+  type        = list(string)
+  default     = []
+}
