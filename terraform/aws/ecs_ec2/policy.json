@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EcsClusterCreator",
+            "Effect": "Allow",
+            "Action": [
+                "iam:*",
+                "applicationinsights:*",
+                "cloudwatch:*",
+                "logs:*",
+                "ecs:*",
+                "ec2:*",
+                "codepipeline:*",
+                "ecr:*",
+                "codebuild:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
