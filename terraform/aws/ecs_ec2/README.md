@@ -1,6 +1,6 @@
-#### AWS ECS Cluster with EC2 using Terraform
+## AWS ECS Cluster with EC2 using Terraform
 
-## Prerequistes
+#### Prerequistes
 
 1. Terraform -> 0.14 >=
 2. AWS CLI configured
