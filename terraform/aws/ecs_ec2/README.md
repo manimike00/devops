@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/manimike00/devops">
-    <img src="images/awsecs.png" alt="Logo" width="300" height="150">
+    <img src="images/awsecs.png" alt="Logo" width="300" height="200">
   </a>
 
   <h3 align="center">AWS ECS Cluster with EC2 using Terraform</h3>
