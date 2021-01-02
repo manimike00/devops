@@ -44,7 +44,7 @@
 This is an example of how you may setting up your AWS ECS cluster using Terraform.
 To get cluster up and running follow these steps.
 
-#### Prerequistes
+#### Prerequisites
 
 1. Terraform 0.14 >=
 2. AWS CLI configured
