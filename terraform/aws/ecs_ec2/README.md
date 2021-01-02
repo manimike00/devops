@@ -6,13 +6,14 @@
 2. AWS CLI configured
 
 
-Steps:
+##### Setting Policy for Session Token
+```
+$ TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": \"arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):$(aws sts get-caller-identity --output text | awk '{print $2}' | awk -F '/' '{print $NF}')\" }, \"Action\": \"sts:AssumeRole\" } ] }"
 
-TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": \"arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):$(aws sts get-caller-identity --output text | awk '{print $2}' | awk -F '/' '{print $NF}')\" }, \"Action\": \"sts:AssumeRole\" } ] }"
+$ aws iam create-role --role-name EcsCreator --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
 
-aws iam create-role --role-name EcsCreator --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
-
-aws iam put-role-policy --role-name EcsCreator --policy-name eks-describe --policy-document file://$(pwd)/policy.json
+$ aws iam put-role-policy --role-name EcsCreator --policy-name eks-describe --policy-document file://$(pwd)/policy.json
+```
 
 CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):role/EcsCreator --role-session-name codebuild-kubectl --duration-seconds 3600) && \
 export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')" && \
