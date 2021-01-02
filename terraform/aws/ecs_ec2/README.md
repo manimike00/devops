@@ -22,19 +22,19 @@
     <img src="images/awsecs.png" alt="Logo" width="300" height="200">
   </a>
 
-  <h3 align="center">AWS ECS Cluster with EC2 using Terraform</h3>
+  <h3 align="center">AWS ECS Cluster using Terraform</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Creating AWS ECS Cluster with EC2 worker nodes using Terraform
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/manimike00/devops"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/manimike00/devops">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/manimike00/devops/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/manimike00/devops/issues">Request Feature</a>
   </p>
 </p>
 
@@ -75,7 +75,7 @@ export BUCKETNAME=myS3Bucket
 ```
 ##### Create S3 bucket for Storing Statefiles
 ```zsh
-    aws s3api create-bucket \
-        --bucket $BUCKETNAME \
-        --create-bucket-configuration LocationConstraint=$AWS_REGION
+aws s3api create-bucket \
+    --bucket $BUCKETNAME \
+    --create-bucket-configuration LocationConstraint=$AWS_REGION
 ```        
