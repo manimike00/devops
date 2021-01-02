@@ -1,3 +1,10 @@
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -21,6 +28,11 @@
   </p>
 </p>
 
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may setting up your AWS ECS cluster using Terraform.
+To get cluster up and running follow these steps.
 
 #### Prerequistes
 
