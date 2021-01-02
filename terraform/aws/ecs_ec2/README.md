@@ -51,12 +51,12 @@ To get cluster up and running follow these steps.
 
 
 ##### Creating IAM role for ECS Cluster Creation
-```
-$ TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": \"arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):$(aws sts get-caller-identity --output text | awk '{print $2}' | awk -F '/' '{print $NF}')\" }, \"Action\": \"sts:AssumeRole\" } ] }"
+```zsh
+TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": \"arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):$(aws sts get-caller-identity --output text | awk '{print $2}' | awk -F '/' '{print $NF}')\" }, \"Action\": \"sts:AssumeRole\" } ] }"
 
-$ aws iam create-role --role-name EcsCreator --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
+aws iam create-role --role-name EcsCreator --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
 
-$ aws iam put-role-policy --role-name EcsCreator --policy-name eks-describe --policy-document file://$(pwd)/policy.json
+aws iam put-role-policy --role-name EcsCreator --policy-name eks-describe --policy-document file://$(pwd)/policy.json
 ```
 
 ##### Configuring AWS CLI Access with Session Token
