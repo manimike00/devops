@@ -41,7 +41,7 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may setting up your AWS ECS cluster using Terraform.
+This is an example of how you create your AWS ECS cluster using Terraform.
 To get cluster up and running follow these steps.
 
 #### Prerequisites
