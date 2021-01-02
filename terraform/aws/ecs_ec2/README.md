@@ -60,7 +60,7 @@ aws iam put-role-policy --role-name EcsCreator --policy-name eks-describe --poli
 ```
 
 ##### Configuring AWS CLI Access with Session Token
-```
+```zsh
 $ CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):role/EcsCreator --role-session-name codebuild-kubectl --duration-seconds 3600) && \
   export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')" && \
   export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')" && \
@@ -69,13 +69,13 @@ $ CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::$(aws sts get-caller
 ```
 
 ##### Environment variables
-```
-    $ export AWS_REGION=ap-south-1
-    $ export BUCKETNAME=myS3Bucket
+```zsh
+export AWS_REGION=ap-south-1
+export BUCKETNAME=myS3Bucket
 ```
 ##### Create S3 bucket for Storing Statefiles
-```
-    $ aws s3api create-bucket \
+```zsh
+    aws s3api create-bucket \
         --bucket $BUCKETNAME \
         --create-bucket-configuration LocationConstraint=$AWS_REGION
 ```        
