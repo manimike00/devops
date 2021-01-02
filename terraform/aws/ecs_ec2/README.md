@@ -1,6 +1,18 @@
+[contributors-shield]: https://img.shields.io/github/contributors/manimike00/devops.svg?style=for-the-badge
+[contributors-url]: https://github.com/manimike00/devops/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/manimike00/devops.svg?style=for-the-badge
+[forks-url]: https://github.com/manimike00/devops/network/members
+[stars-shield]: https://img.shields.io/github/stars/manimike00/devops.svg?style=for-the-badge
+[stars-url]: https://github.com/manimike00/devops/stargazers
+[issues-shield]: https://img.shields.io/github/issues/manimike00/devops.svg?style=for-the-badge
+[issues-url]: https://github.com/manimike00/devops/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[linkedin-url]: https://linkedin.com/in/manikandan
 
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
