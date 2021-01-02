@@ -61,7 +61,7 @@ aws iam put-role-policy --role-name EcsCreator --policy-name eks-describe --poli
 
 ##### Configuring AWS CLI Access with Session Token
 ```zsh
-$ CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):role/EcsCreator --role-session-name codebuild-kubectl --duration-seconds 3600) && \
+CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::$(aws sts get-caller-identity --output text | awk {'print $1'}):role/EcsCreator --role-session-name codebuild-kubectl --duration-seconds 3600) && \
   export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')" && \
   export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')" && \
   export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')" && \
