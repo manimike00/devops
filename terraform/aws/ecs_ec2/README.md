@@ -7,7 +7,7 @@
 [issues-shield]: https://img.shields.io/github/issues/manimike00/devops.svg?style=for-the-badge
 [issues-url]: https://github.com/manimike00/devops/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/manikandan
+[linkedin-url]: https://www.linkedin.com/in/manikandan-%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB-9a63b1182/
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
