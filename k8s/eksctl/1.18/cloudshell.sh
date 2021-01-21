@@ -7,7 +7,7 @@ echo "[TASK 2] Install kubectl binary"
 sudo curl -LO https://dl.k8s.io/release/v1.20.0/bin/linux/amd64/kubectl >/dev/null 2>&1
 sudo chown $USER:$USER kubectl
 sudo chown 0755 kubectl
-sudo mv ./kubectl ~/.local/bin/
+sudo mv kubectl ~/.local/bin/
 
 echo "[TASK 3] Install helm"
 wget https://get.helm.sh/helm-v3.5.0-linux-amd64.tar.gz >/dev/null 2>&1
